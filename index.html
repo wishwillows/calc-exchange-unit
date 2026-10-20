@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#e9effc">
+  <title>Hitung. — Kalkulator Multi-Fungsi</title>
+  <meta name="description" content="Kalkulator, kurs real-time, dan konverter unit dalam satu aplikasi bergaya iOS Liquid Glass.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Latar ambient -->
+  <div class="ambient" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+    <div class="deco ring-1"></div>
+    <div class="deco ring-2"></div>
+    <div class="deco coin"></div>
+  </div>
+
+  <main class="stage">
+    <section class="device" id="device">
+
+      <header class="app-bar">
+        <div class="brand"><span class="brand-dot"></span>Hitung<span class="brand-accent">.</span></div>
+        <div class="app-right">
+          <button class="theme-btn" id="themeBtn" aria-label="Ganti tema terang/gelap">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
+          </button>
+          <div class="clock" id="clock">--.--</div>
+        </div>
+      </header>
+
+      <nav class="segmented" id="segmented" role="tablist" aria-label="Mode kalkulator">
+        <span class="seg-thumb" id="segThumb"></span>
+        <button role="tab" class="seg-tab is-on" data-panel="0" aria-selected="true">Kalkulator</button>
+        <button role="tab" class="seg-tab" data-panel="1" aria-selected="false">Kurs</button>
+        <button role="tab" class="seg-tab" data-panel="2" aria-selected="false">Konversi</button>
+      </nav>
+
+      <div class="panels" id="panels">
+
+        <!-- ============ PANEL 1 : KALKULATOR ============ -->
+        <section class="panel is-active" data-index="0" role="tabpanel">
+          <div class="calc-display">
+            <div class="calc-trail" id="calcTrail">&nbsp;</div>
+            <div class="calc-row">
+              <button class="calc-back key" data-key="back" aria-label="Hapus satu digit">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7 6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>
+              </button>
+              <output class="calc-value" id="calcValue">0</output>
+            </div>
+          </div>
+
+          <div class="calc-grid" id="calcGrid">
+            <button class="key key--fn" data-key="ac">AC</button>
+            <button class="key key--fn" data-key="neg">⁺∕</button>
+            <button class="key key--fn" data-key="pct">%</button>
+            <button class="key key--op" data-key="÷">÷</button>
+
+            <button class="key" data-key="7">7</button>
+            <button class="key" data-key="8">8</button>
+            <button class="key" data-key="9">9</button>
+            <button class="key key--op" data-key="×">×</button>
+
+            <button class="key" data-key="4">4</button>
+            <button class="key" data-key="5">5</button>
+            <button class="key" data-key="6">6</button>
+            <button class="key key--op" data-key="−">−</button>
+
+            <button class="key" data-key="1">1</button>
+            <button class="key" data-key="2">2</button>
+            <button class="key" data-key="3">3</button>
+            <button class="key key--op" data-key="+">+</button>
+
+            <button class="key key--zero" data-key="0">0</button>
+            <button class="key" data-key=",">,</button>
+            <button class="key key--op key--eq" data-key="=">=</button>
+          </div>
+          <p class="hint">Dukungan keyboard aktif — coba ketik langsung ⌨️</p>
+        </section>
+
+        <!-- ============ PANEL 2 : KURS ============ -->
+        <section class="panel is-right" data-index="1" role="tabpanel">
+          <div class="live-row">
+            <span class="live-dot" id="liveDot"></span>
+            <span class="live-label" id="liveLabel">Menghubungkan kurs…</span>
+            <div class="ring-wrap" title="Pembaruan otomatis berikutnya">
+              <svg viewBox="0 0 24 24">
+                <circle class="ring-bg" cx="12" cy="12" r="9"/>
+                <circle class="ring-fg" id="ringFg" cx="12" cy="12" r="9"/>
+              </svg>
+              <span id="ringNum">60</span>
+            </div>
+          </div>
+
+          <label class="field-label">Jumlah &amp; mata uang asal</label>
+          <div class="field-row">
+            <input type="text" inputmode="decimal" class="amount-input" id="curAmount" value="1" autocomplete="off" spellcheck="false">
+            <div class="select-wrap">
+              <select id="curFrom" aria-label="Mata uang asal"></select>
+              <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+
+          <div class="swap-row">
+            <span class="hairline"></span>
+            <button class="swap" id="curSwap" aria-label="Tukar mata uang">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v13M7 17l-3-3M7 17l3-3M17 20V7M17 7l-3 3M17 7l3 3"/></svg>
+            </button>
+            <span class="hairline"></span>
+          </div>
+
+          <label class="field-label">Mata uang tujuan</label>
+          <div class="field-row">
+            <div class="select-wrap select-wrap--wide">
+              <select id="curTo" aria-label="Mata uang tujuan"></select>
+              <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+
+          <div class="result-card" id="curCard" title="Ketuk untuk menyalin">
+            <div class="result-flag" id="curFlag">🇮🇩</div>
+            <div class="result-body">
+              <div class="result-num" id="curResult">—</div>
+              <div class="result-sub" id="curSub">Memuat kurs…</div>
+            </div>
+            <span class="updated" id="curUpdated"></span>
+          </div>
+
+          <!-- Grafik pergerakan kurs -->
+          <div class="chart-row" id="chartRow" hidden>
+            <div class="spark-box">
+              <svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+                <path id="sparkArea" d=""></path>
+                <polyline id="sparkLine" points=""></polyline>
+              </svg>
+              <span class="spark-dot" id="sparkDot"></span>
+            </div>
+            <div class="chart-meta">
+              <span class="delta" id="deltaBadge">—</span>
+              <span class="range">6 MINGGU · RIWAYAT ECB</span>
+            </div>
+          </div>
+
+          <div class="presets" id="curPresets">
+            <button class="chip chip--mini" data-amt="1">1</button>
+            <button class="chip chip--mini" data-amt="100">100</button>
+            <button class="chip chip--mini" data-amt="1000">1.000</button>
+            <button class="chip chip--mini" data-amt="10000">10.000</button>
+            <button class="chip chip--mini" data-amt="1000000">1 jt</button>
+          </div>
+        </section>
+
+        <!-- ============ PANEL 3 : KONVERSI UNIT ============ -->
+        <section class="panel is-right" data-index="2" role="tabpanel">
+          <div class="chips" id="catChips"></div>
+
+          <label class="field-label">Nilai &amp; unit asal</label>
+          <div class="field-row">
+            <input type="text" inputmode="decimal" class="amount-input" id="unitAmount" value="1" autocomplete="off" spellcheck="false">
+            <div class="select-wrap">
+              <select id="unitFrom" aria-label="Unit asal"></select>
+              <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+
+          <div class="swap-row">
+            <span class="hairline"></span>
+            <button class="swap" id="unitSwap" aria-label="Tukar unit">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v13M7 17l-3-3M7 17l3-3M17 20V7M17 7l-3 3M17 7l3 3"/></svg>
+            </button>
+            <span class="hairline"></span>
+          </div>
+
+          <label class="field-label">Unit tujuan</label>
+          <div class="field-row">
+            <div class="select-wrap select-wrap--wide">
+              <select id="unitTo" aria-label="Unit tujuan"></select>
+              <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+
+          <div class="result-card" id="unitCard" title="Ketuk untuk menyalin">
+            <div class="result-flag" id="unitIcon">📏</div>
+            <div class="result-body">
+              <div class="result-num" id="unitResult">—</div>
+              <div class="result-sub" id="unitNote"></div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /panels -->
+    </section>
+
+    <p class="foot">Kurs spot: <strong>Coinbase</strong> · riwayat &amp; cadangan: <strong>Frankfurter/ECB</strong> · pembaruan otomatis tiap 60 detik</p>
+  </main>
+
+  <div class="toast" id="toast">Tersalin ✓</div>
+
+  <script src="script.js"></script>
+</body>
+            </html>
